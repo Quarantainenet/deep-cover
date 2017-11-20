@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="<%= root_path %>"/>
+    <script src="https://use.fontawesome.com/81e98abb93.js"></script>
+    <link rel="stylesheet" href="assets/deep_cover.css" type="text/css"/>
+  </head>
+  <body class="source">
+    <header>
+      <div class="content">
+        <div class="info"><span class="deep-cover"><span class="deep">Deep</span>Cover</span>
+          <span class="version">v<%= DeepCover::VERSION %></span>
+        </div>
+        <div class="nav">
+          <a href="index.html" aria-label="Home"><i class="fa fa-home" aria-hidden="true"></i></a>
+          <span class="path"><%= covered_code.name %><span>
+        </div>
+        <div class="stats"><%= stats %></div>
+      </div>
+    </header>
+    <main class="source">
+      <%= format_source %>
+    </main>
+  </body>
+</html>

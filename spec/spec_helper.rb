@@ -29,6 +29,15 @@ RSpec.configure do |config|
   end
 end
 
+def trivial_gem_coverage
+  # We can only easily require this at most once, so we have to share...
+  $trivial_gem_coverage ||= begin
+    DeepCover.cover(paths: 'spec') { require_relative 'cli_fixtures/trivial_gem/lib/trivial_gem' }
+    DeepCover.coverage
+  end
+end
+
+
 if %w(true 1).include?(ENV['WITHOUT_PENDING'])
   # "Official" way of not showing pendings
   # https://github.com/rspec/rspec-core/issues/2377

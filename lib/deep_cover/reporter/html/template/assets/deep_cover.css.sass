@@ -1,0 +1,182 @@
+// Adapted from GitHub's scheme https://raw.githubusercontent.com/primer/github-syntax-light/master/lib/github-light.css
+$pl-c: #6a737d /* comment punctuation.definition.comment string.comment */
+
+/* constant entity.name.constant variable.other.constant variable.language support meta.property-name support.constant support.variable meta.module-reference markup.raw meta.diff.header meta.output */
+$pl-v: #005cc5 /* string variable */
+
+$pl-en: #6f42c1 /* entity.name */
+
+/* variable.parameter.function storage.modifier.package storage.modifier.import storage.type.java variable.other */
+$pl-s1: #24292e /* string source */
+
+
+$pl-ent: #22863a /* entity.name.tag markup.quote */
+
+
+$pl-k: #d73a49 /* keyword storage storage.type */
+
+/* string */
+/* punctuation.definition.string source.regexp string.regexp.character-class */
+/* string punctuation.section.embedded source */
+/* string.regexp */
+/* string.regexp constant.character.escape */
+/* string.regexp source.ruby.embedded */
+$pl-s: #032f62 /* string.regexp string.regexp.arbitrary-repitition */
+
+/* variable */
+$pl-v: #e36209 /* sublimelinter.mark.warning */
+
+$pl-bu: #b31d28 /* invalid.broken invalid.deprecated invalid.unimplemented message.error brackethighlighter.unmatched sublimelinter.mark.error */
+
+$pl-ii: #fafbfc /* invalid.illegal */
+$pl-ii-background: #b31d28
+
+$pl-sr: #22863a /* string.regexp constant.character.escape */
+
+$pl-ml: #735c0f /* markup.list */
+
+/* markup.heading */
+/* markup.heading entity.name */
+$pl-mh: #005cc5 /* meta.separator */
+
+$pl-mi2: #f6f8fa /* markup.ignored markup.untracked */
+$pl-mi2-background: #005cc5
+
+*
+  box-sizing: border-box
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+// *** DeepCover Source ***
+
+$dark-green: #25712b
+
+body.source
+  header
+    width: 100%
+    position: fixed
+    top: 0
+    background: #24292e
+    color: rgba(255,255,255,0.75)
+    .content
+      width: 980px
+      margin-right: auto
+      margin-left: auto
+      position: relative
+
+      .info
+        color: #88d483
+        .deep-cover
+          transition: opacity 0.4s
+          opacity: 0.3
+          font-size: 24px
+          font-weight: 900
+          .deep
+            color: #74b770
+        .version
+          transition: opacity 0.4s
+          opacity: 0.1
+          font-size: 12px
+          font-weight: lighter
+        &:hover
+          .deep-cover
+            opacity: 0.8
+          .version
+            opacity: 0.6
+      .nav
+        a
+          color: white
+      .stats
+        position: absolute
+        border: 1px solid #e1e4e8
+        background: white
+        right: 20px
+        top: 15px
+        color: $pl-s
+        .ignored
+          opacity: 0.7
+          &::before
+            content: "[+"
+          &::after
+            content: "]"
+
+  main
+    white-space: pre
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace
+    font-size: 12px
+    line-height: 20px
+    width: 980px
+    margin: 14px auto 0 auto
+
+    table.source
+      width: 100%
+      border: 1px solid #e1e4e8
+
+      td
+        vertical-align: top
+
+      .nb
+        color: rgba(27,31,35,0.3)
+        text-align: right
+        width: 50px
+        padding-right: 10px
+        padding-left: 10px
+      // * Color scheme *
+
+      // Default color, for unexecutable code
+      color: $pl-c
+
+      // Executed code
+      .run
+        color: $pl-s
+
+      .not-run
+        background-color: hsl(hue(#f00), 100%, 85%)
+
+      .kind-keyword
+        color: $pl-k
+
+      // Literals:
+      .kind-expression, .node-const
+        color: $pl-v
+
+      .node-send
+        color: $dark-green
+
+      .node-str
+        color: $pl-s
+
+// *** Index ***
+
+.tree
+  // Overrides
+  .jstree-table-cell
+    padding-left: 0
+    span
+      padding-right: 4px
+  .jstree-table-header-cell
+    // Leave space for sort arrows:
+    padding-right: 17px
+    font-style: italic
+  .jstree-table-sort-icon
+    right: 4px
+    top: 8px
+    left: inherit
+  .jstree-table-separator
+    border: none
+
+  .jstree-table-column
+    text-align: right
+    border: gray 1px #ddd
+  .jstree-table-column-0
+    text-align: left
+
+  .percent-100
+    color: green
+  .percent-90
+    color: blue
+  .percent-80
+    color: brown
+  .percent-60, .percent-70
+    color: orange
+  .percent-00, .percent-10, .percent-20, .percent-30, .percent-40, .percent-50
+    color: red
