@@ -112,74 +112,89 @@ $light-gray: #e1e4e8
 %show-fork-icon
   .fork-branch > .fork-icon
     display: inherit
+%center
+  width: 980px
+  margin: 0 auto 0 auto
 
 $toggled: $light-green
 
-body.source
-  header
-    width: 100%
-    position: fixed
-    top: 0
-    background: #24292e
-    color: rgba(255,255,255,0.75)
-    padding-bottom: 4px
+// *** Common template ***
+main
+  @extend %center
+  padding-top: 10px
+.overlay
+  width: 100%
+  position: fixed
+  top: 0
+  z-index: 9999
+  .center
+    position: relative
+    @extend %center
 
-    .content
-      width: 980px
-      margin-right: auto
-      margin-left: auto
-      position: relative
+header
+  width: 100%
+  position: relative
+  top: 0
+  background: #24292e
+  color: rgba(255,255,255,0.75)
+  padding-bottom: 4px
 
-      .info
-        margin: 4px 0 4px 0
-        color: #88d483
+  .content
+    position: relative
+    @extend %center
+
+    .info
+      padding: 4px 0 4px 0
+      color: #88d483
+      .deep-cover
+        transition: opacity 0.4s
+        opacity: 0.3
+        font-size: 24px
+        font-weight: 900
+        .deep
+          color: #74b770
+      .version
+        transition: opacity 0.4s
+        opacity: 0.1
+        font-size: 12px
+        font-weight: lighter
+      &:hover
         .deep-cover
-          transition: opacity 0.4s
-          opacity: 0.3
-          font-size: 24px
-          font-weight: 900
-          .deep
-            color: #74b770
+          opacity: 0.8
         .version
-          transition: opacity 0.4s
-          opacity: 0.1
-          font-size: 12px
-          font-weight: lighter
-        &:hover
-          .deep-cover
-            opacity: 0.8
-          .version
-            opacity: 0.6
+          opacity: 0.6
+
+    // *** DeepCover Source ***
+    body.source &
       .nav
         a
           color: white
-      .stats
-        th, td
-          padding: 6px
-          border-right: 1px solid $light-gray
-        td
-          padding-top: 0
-        table
-          @extend %light-border
-        position: absolute
-        background: white
-        right: 20px
-        top: 15px
-        color: $pl-s
-        .ignored
-          opacity: 0.7
-          &::before
-            content: "[+"
-          &::after
-            content: "]"
+body.source
+  .stats
+    th, td
+      padding: 6px
+      border-right: 1px solid $light-gray
+    td
+      padding-top: 0
+    table
+      @extend %light-border
+    position: absolute
+    background: white
+    right: 20px
+    top: 15px
+    color: $pl-s
+    .ignored
+      opacity: 0.7
+      &::before
+        content: "[+"
+      &::after
+        content: "]"
 
   main
     white-space: pre
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace
     font-size: 12px
     line-height: 20px
-    width: 980px
-    margin: 14px auto 0 auto
 
     table.source
       @extend %light-border
