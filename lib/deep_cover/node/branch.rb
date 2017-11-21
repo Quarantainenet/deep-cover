@@ -18,9 +18,12 @@ module DeepCover
     end
 
     class TrivialBranch < Node::EmptyBody
-      def initialize(other_branch: raise, condition: raise, position: true)
+      attr_reader :name
+
+      def initialize(other_branch: raise, condition: raise, position: true, name: raise)
         @condition = condition
         @other_branch = other_branch
+        @name = name
         super(nil, parent: condition.parent, position: position)
       end
 

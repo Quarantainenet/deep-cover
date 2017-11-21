@@ -2,6 +2,7 @@
 <html>
   <head>
     <base href="<%= root_path %>"/>
+    <script src="assets/jquery-3.2.1.min.js"></script>
     <script src="https://use.fontawesome.com/81e98abb93.js"></script>
     <link rel="stylesheet" href="assets/deep_cover.css" type="text/css"/>
   </head>
@@ -21,5 +22,12 @@
     <main class="source">
       <%= format_source %>
     </main>
+    <script>
+      $(function() {
+        $('.stats .branch').click(function() {
+          $('body').toggleClass('show-forks')
+        });
+      });
+    </script>
   </body>
 </html>

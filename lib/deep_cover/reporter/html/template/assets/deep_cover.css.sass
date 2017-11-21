@@ -2,7 +2,7 @@
 $pl-c: #6a737d /* comment punctuation.definition.comment string.comment */
 
 /* constant entity.name.constant variable.other.constant variable.language support meta.property-name support.constant support.variable meta.module-reference markup.raw meta.diff.header meta.output */
-$pl-v: #005cc5 /* string variable */
+$pl-c1: #005cc5 /* string variable */
 
 $pl-en: #6f42c1 /* entity.name */
 
@@ -42,13 +42,78 @@ $pl-mh: #005cc5 /* meta.separator */
 $pl-mi2: #f6f8fa /* markup.ignored markup.untracked */
 $pl-mi2-background: #005cc5
 
+
+// http://meyerweb.com/eric/tools/css/reset/
+// v2.0 | 20110126
+// License: none (public domain)
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video
+  margin: 0
+  padding: 0
+  border: 0
+  font-size: 100%
+  // font: inherit
+  vertical-align: baseline
+
+// HTML5 display-role reset for older browsers
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section
+  display: block
+
+body
+  line-height: 1
+
+ol, ul
+  list-style: none
+
+blockquote, q
+  quotes: none
+
+blockquote:before, blockquote:after,
+q:before, q:after
+  content: ''
+  content: none
+
+table
+  border-collapse: collapse
+  border-spacing: 0
+
+
+// Global settings
 *
   box-sizing: border-box
+  border-collapse: collapse
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
 
 // *** DeepCover Source ***
 
 $dark-green: #25712b
+$light-green: #74b770
+$light-gray: #e1e4e8
+
+%light-border
+  border: 1px solid $light-gray
+
+.fork-branch > .fork-icon
+  display: none
+%show-fork-icon
+  .fork-branch > .fork-icon
+    display: inherit
+
+$toggled: $light-green
 
 body.source
   header
@@ -57,6 +122,8 @@ body.source
     top: 0
     background: #24292e
     color: rgba(255,255,255,0.75)
+    padding-bottom: 4px
+
     .content
       width: 980px
       margin-right: auto
@@ -64,6 +131,7 @@ body.source
       position: relative
 
       .info
+        margin: 4px 0 4px 0
         color: #88d483
         .deep-cover
           transition: opacity 0.4s
@@ -86,8 +154,14 @@ body.source
         a
           color: white
       .stats
+        th, td
+          padding: 6px
+          border-right: 1px solid $light-gray
+        td
+          padding-top: 0
+        table
+          @extend %light-border
         position: absolute
-        border: 1px solid #e1e4e8
         background: white
         right: 20px
         top: 15px
@@ -108,8 +182,8 @@ body.source
     margin: 14px auto 0 auto
 
     table.source
+      @extend %light-border
       width: 100%
-      border: 1px solid #e1e4e8
 
       td
         vertical-align: top
@@ -137,13 +211,41 @@ body.source
 
       // Literals:
       .kind-expression, .node-const
-        color: $pl-v
+        color: $pl-c1
 
       .node-send
         color: $dark-green
 
       .node-str
         color: $pl-s
+
+      // Branches
+      .fork
+        position: relative
+      .fork-icon
+        position: absolute
+        left: -2.2ex
+        width: 2ex
+        height: 1.5em
+        line-height: 1.5em
+        text-align: center
+        background-color: white
+        @extend %light-border
+
+      .fork-whole:hover
+        @extend %show-fork-icon
+        background: $light-gray
+
+
+      .fork-with-branch-not-run > .fork-icon
+        @extend .not-run
+        border-color: red
+  &.show-forks
+    @extend %show-fork-icon
+    .fork-whole
+      background: $light-gray
+    .stats .branch
+      background: $toggled
 
 // *** Index ***
 

@@ -21,7 +21,8 @@ module DeepCover
 
     def convert_source
       @rewriter = ::Parser::Source::Rewriter.new(covered_code.buffer)
-      insert_tags
+      insert_node_tags
+      insert_branch_tags
       html_escape
       @rewriter.process
     end
@@ -52,25 +53,59 @@ module DeepCover
 
     private
 
-    def node_attributes(node, kind)
-      title, run = case runs = analyser.node_runs(node)
-                   when nil
-                     ['ignored', 'ignored']
-                   when 0
-                     ['never run', 'not-run']
-                   else
-                     ["#{runs}x", 'run']
-                   end
-      %{class="node-#{node.type} kind-#{kind} #{run}" title="#{title}"}
+    RUNS_CLASS = Hash.new('run').merge!(0 => 'not-run', nil => 'ignored')
+    RUNS_TITLE = Hash.new { |k, runs| "#{runs}x" }.merge!(0 => 'never run', nil => 'ignored')
+
+    def node_span(node, kind)
+      runs = analyser.node_runs(node)
+      %{<span class="node-#{node.type} kind-#{kind} #{RUNS_CLASS[runs]}" title="#{RUNS_TITLE[runs]}">}
     end
 
-    def insert_tags
+    def insert_node_tags
       analyser.each_node do |node|
         node.executed_loc_hash.each do |kind, range|
-          @rewriter.insert_before_multi(range, "<span #{node_attributes(node, kind)}>")
-          @rewriter.insert_before_multi(range.end, '</span>')
+          wrap(range, node_span(node, kind), '</span>')
         end
       end
+    end
+
+    def fork_span(node, kind, id, title: nil, klass: nil)
+      runs = analyser_map[:branch].node_runs(node)
+      title ||= RUNS_TITLE[runs]
+      klass ||= RUNS_CLASS[runs]
+      icon = %{<i class="fork-icon fa fa-code-fork" aria-hidden="true" title="#{title}"></i>}
+      %{<span class="fork fork-#{kind} fork-#{klass}" data-fork-id="#{id}">#{icon}}
+    end
+
+    def insert_branch_tags
+      analyser_map[:branch].each_node.with_index do |node, id|
+        empty_branch = nil
+        node.branches.each do |branch|
+          exp = branch.expression
+          if exp && !exp.empty?
+            wrap(exp, fork_span(branch, :branch, id), '</span>')
+          else
+            empty_branch = branch
+          end
+        end
+        if empty_branch
+          runs = analyser_map[:branch].node_runs(empty_branch)
+          if runs && runs > 0
+            # Nothing to do
+          else
+            name = empty_branch.name if empty_branch.respond_to?(:name)
+            name ||= 'branch'
+            title = "#{name} #{RUNS_TITLE[runs]}"
+            klass = "with-branch-#{RUNS_CLASS[runs]}"
+          end
+        end
+        wrap(node.expression, fork_span(node, :whole, id, title: title, klass: klass), '</span>')
+      end
+    end
+
+    def wrap(range, before, after)
+      @rewriter.insert_before_multi(range, before)
+      @rewriter.insert_before_multi(range.end, after)
     end
 
     def html_escape

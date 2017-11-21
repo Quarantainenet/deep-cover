@@ -14,7 +14,7 @@ module DeepCover
       def branches
         [
           conditional,
-          TrivialBranch.new(condition: lhs, other_branch: conditional),
+          TrivialBranch.new(name: "#{type == :and ? 'falsy' : 'truthy'} shortcut", condition: lhs, other_branch: conditional),
         ]
       end
     end
